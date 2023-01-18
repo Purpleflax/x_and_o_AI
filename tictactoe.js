@@ -1,8 +1,16 @@
 const handleMenu = (() => {
-  const startButton = document.getElementById("fader");
-  startButton.addEventListener("click", () => {
+  const startButtonP = document.getElementById("fader");
+  startButtonP.addEventListener("click", () => {
     document.getElementById("title").className = "animateTitle";
-    startButton.className = "buttonVanish";
+    startButtonP.className = "buttonVanish";
+    startButtonAI.className = "buttonVanish";
+    setTimeout(fadeInGame, 1000);
+  });
+  const startButtonAI = document.getElementById("fader2");
+  startButtonAI.addEventListener("click", () => {
+    document.getElementById("title").className = "animateTitle";
+    startButtonAI.className = "buttonVanish";
+    startButtonP.className = "buttonVanish";
     setTimeout(fadeInGame, 1000);
   });
   const fadeInGame = (() => {

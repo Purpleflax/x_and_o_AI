@@ -28,7 +28,16 @@
 .wrapper {
     position: absolute;
     top: 50vh;
-    left: 43vw;
+    left: 37vw;
+    display: flex;
+    justify-content: center;
+    animation: 1.5s ease-out 0s 1 titleAppear;
+}
+
+.wrapper2 {
+    position: absolute;
+    top: 50vh;
+    left: 52vw;
     display: flex;
     justify-content: center;
     animation: 1.5s ease-out 0s 1 titleAppear;
@@ -54,7 +63,6 @@
 .cta:hover {
     transition: 0.5s;
     box-shadow: 10px 10px 0 #C9E4E7;
-    transform: translateX(-1.5vw);
 }
 
 .cta span:nth-child(2) {
