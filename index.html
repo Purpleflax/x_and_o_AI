@@ -8,6 +8,7 @@
     <title>Tic-Tac-Toe</title>
   </head>
   <body>
+    <div id="whole">
     <div id="startMenu">
       <h1 id="title">Tic-Tac-Toe</h1>
       <div class="wrapper">
@@ -94,6 +95,12 @@
       </div>
     </div>
     <div id="main">
+      <div id="playerOnePic" style="box-shadow:none">
+        <img src="./images/person.svg" alt="player one" class="playerImg"/>
+      </div>
+      <div id="playerTwoPic" style="box-shadow:none">
+        <img src="./images/ai.svg" alt="player two" class="playerImg"/>
+      </div>
       <div id="game">
         <div class="row">
           <div class="cell" id="cell-0"></div>
@@ -114,21 +121,18 @@
       <h2 id="turnDisplay">Player One's Turn.</h2>
       <button id="end">Reset</button>
       </div>
-      <div id="menuContainer">
-        <div class="menu" onclick="this.classList.toggle('open')">
-          <div class="button"></div>
-          <div class="button"></div>
-          <div class="button"></div>
-        </div>
+    </div>
+    <div id="menuContainer">
+      <div class="menu" onclick="this.classList.toggle('open')">
+        <div id="easy" class="button"></div>
+        <div id="medium" class="button"></div>
+        <div id="hard" class="button"></div>
       </div>
     </div>
-    <div>
-    <div id="playerOnePic" style="box-shadow:none">
-      <img src="./images/person.svg" alt="player one" class="playerImg"/>
-    </div>
-    <div id="playerTwoPic" style="box-shadow:none">
-      <img src="./images/ai.svg" alt="player two" class="playerImg"/>
-    </div>
+    <div id="winSplash">
+    <h1 id="winText"></h1>
+    <button id="playAgain">Play Again?</button>
+  </div>
     <script src="tictactoe.js"></script>
   </body>
 </html>

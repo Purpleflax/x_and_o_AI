@@ -210,11 +210,10 @@ path.two {
 .menu {
     position: relative;
     top: 40px;
-    padding: 30px;
+    padding: 60px;
     background: #e8e8f3;
     border-radius: 100%;
     cursor: pointer;
-    box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15), -7px -7px 20px rgba(255, 255, 255, 1), inset 0px 0px 4px rgba(255, 255, 255, 0.2), inset 7px 7px 15px rgba(55, 84, 170, 0), inset -7px -7px 20px rgba(255, 255, 255, 0), 0px 0px 4px rgba(255, 255, 255, 0);
 }
 .menu::before, .menu::after {
     content: "";
@@ -223,8 +222,8 @@ path.two {
     width: 30px;
     height: 5px;
     position: absolute;
-    left: 16px;
-    top: 27px;
+    left: 45px;
+    top: 55px;
     transition: 0.2s ease;
     z-index: 1;
 }
@@ -248,23 +247,23 @@ path.two {
     pointer-events: auto;
 }
 .menu.open .button:first-of-type {
-    bottom: 40px;
-    right: 70px;
+    bottom: 80px;
+    right: 140px;
     background: url("./images/ai.svg") no-repeat 50%/50% #0db838;
 }
 .menu.open .button:nth-of-type(2) {
-    bottom: 80px;
+    bottom: 160px;
     background: url("./images/ai.svg") no-repeat 50%/ 50% #ecc92d;
     transition-delay: 0.05s;
 }
 .menu.open .button:last-of-type {
-    bottom: 40px;
-    right: -70px;
+    bottom: 80px;
+    right: -140px;
     background: url("./images/ai.svg") no-repeat 50% 45%/50% 45% #db1d1d;
     transition-delay: 0.1s;
 }
 .button {
-    padding: 30px;
+    padding: 60px;
     border-radius: 50%;
     cursor: pointer;
     background: #e8e8f3;
@@ -282,8 +281,8 @@ path.two {
 
 #menuContainer {
     position: absolute;
-    top: 45vh;
-    left: 20vw;
+    top: 40vh;
+    left: 46.5vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -297,9 +296,6 @@ path.two {
     height: 6vw;
     background-color: #f4a261;
     border-radius: 50%;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 1s linear;
 }
 
 #playerOnePic {
@@ -307,8 +303,8 @@ path.two {
     box-shadow: 0 2vh 2vh 1vh #e76f51;
     transform: translateY(-2vh);
     border-radius: 50%;
-    top: 45vh;
-    left: 27vw;
+    top: 25vh;
+    left: -8vw;
     transition: translateY() 1s linear;
 }
 
@@ -316,7 +312,22 @@ path.two {
     position: absolute;
     box-shadow: 0 2vh 2vh 1vh #e76f51;
     border-radius: 50%;
-    top: 45vh;
-    right: 28vw;
+    top: 25vh;
+    right: -8vw;
     transition: translateY() 1s linear;
+}
+
+#winSplash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 1s linear;
 }
