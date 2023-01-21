@@ -52,12 +52,11 @@ const handleMenu = () => {
       setTimeout(fadeInGame, 1000);
     });
   };
-  return { difficulty };
 };
 
-const playerFactory = (name, status) => {
+const playerFactory = (name, status, marker) => {
   const currentlyActive = false;
-  return { name, status, currentlyActive };
+  return { name, status, currentlyActive, marker };
 };
 
 const gameBoard = (() => {
@@ -76,7 +75,7 @@ const displayController = (() => {
       board.forEach((item, index) => {
         const clicked = document.getElementById(`cell-${index}`);
         clicked.addEventListener("click", () => {
-          if (playerOne.currentlyActive == true && board[index] == "") {
+          if (board[index] == "X" && board[index] == "") {
             clicked.textContent = "X";
             board[index] = "X";
             console.log(board);
@@ -100,7 +99,7 @@ const displayController = (() => {
         });
       });
     };
-    const aiGame = () => {
+    const aiGame = (difficulty) => {
       playerTwoPic.innerHTML = `<img src="./images/ai.svg" alt="X" class="playerImg">`;
       switchActiveImg();
       board.forEach((item, index) => {
@@ -127,6 +126,7 @@ const displayController = (() => {
               }
               if (playerTwo.currentlyActive == true && board[aiRandom] == "") {
                 const aiClick = document.getElementById(`cell-${aiRandom}`);
+
                 aiClick.textContent = "O";
                 board[aiRandom] = "O";
                 console.log(board);
@@ -149,6 +149,7 @@ const displayController = (() => {
               }
               if (playerTwo.currentlyActive == true && board[aiRandom] == "") {
                 const aiClick = document.getElementById(`cell-${aiRandom}`);
+
                 aiClick.textContent = "O";
                 board[aiRandom] = "O";
                 console.log(board);
@@ -162,15 +163,12 @@ const displayController = (() => {
             }, 1000);
           }
           if (difficulty === "hard") {
-            // minimax algorithm
-            let intelliCheck = true;
-            let bestScore = -Infinity;
-            const toMaxArray = Array.from(board);
+            bestMove(board, 0, false);
           }
         });
       });
     };
-    return { playerGame, aiGame };
+    return { playerGame, aiGame, switchActiveImg };
   };
   const clearBoard = () => {
     switchActiveImg();
@@ -217,22 +215,11 @@ const game = (() => {
     if (playerTwo.status === "human") {
       displayController.renderBoard().playerGame();
     } else if (playerTwo.status === "AI") {
-      displayController.renderBoard().aiGame();
+      displayController.renderBoard().aiGame("hard");
     }
   };
-  const aiMove = (isMaximizing) => {
-    const depth = (maxDepth = -1) => {
-      this.maxDepth = maxDepth;
-      this.nodesMap = new Map();
-    };
-    const minimax = (board, depth, isMaximizing) => {
-      if (depth === 0) this.nodesMap.clear();
-      if (depth === this.maxDepth) {
-        return checkWinner(true);
-      }
-  };
-};
-  const checkWinner = (intelliCheck) => {
+
+  const checkWinner = () => {
     document.getElementById("playAgain").addEventListener("click", () => {
       resetGame();
     });
@@ -245,32 +232,26 @@ const game = (() => {
           board[index] === board[index + 1] &&
           board[index] === board[index + 2]
         ) {
-          if (intelliCheck === true) {
-            return board[index];
-          } else {
-            playerOne.currentlyActive
-              ? (winner.innerText = "Player Two Wins!")
-              : (winner.innerText = "Player One Wins!");
-            displayController.winScreen();
-            return;
-          }
+          playerOne.currentlyActive
+            ? (winner.innerText = "Player Two Wins!")
+            : (winner.innerText = "Player One Wins!");
+          displayController.winScreen();
+          return;
         }
+
       }
       if (index <= 2 && board[index] !== "") {
         if (
           board[index] === board[index + 3] &&
           board[index] === board[index + 6]
         ) {
-          if (intelliCheck === true) {
-            return board[index];
-          } else {
-            playerOne.currentlyActive
-              ? (winner.innerText = "Player Two Wins!")
-              : (winner.innerText = "Player One Wins!");
-            displayController.winScreen();
-            return;
-          }
+          playerOne.currentlyActive
+            ? (winner.innerText = "Player Two Wins!")
+            : (winner.innerText = "Player One Wins!");
+          displayController.winScreen();
+          return;
         }
+
       }
     });
     if (board[0] === board[4] && board[0] === board[8] && board[0] !== "") {
@@ -293,6 +274,69 @@ const game = (() => {
       return;
     }
   };
+
+  const aiCheckWinner = (board) => {
+    let winner = null;
+    board.forEach((item, index) => {
+      // check for horizontal wins
+      if (index % 3 == 0 && board[index] != "") {
+        if (
+          board[index] == board[index + 1] &&
+          board[index] == board[index + 2]
+        ) {
+          if (board[index] == "X") {
+            winner = "X";
+          }
+          else if (board[index] == "O") {
+            winner = "O";
+
+          }
+        }
+
+      }
+      if (index <= 2 && board[index] !== "") {
+        if (
+          board[index] == board[index + 3] &&
+          board[index] == board[index + 6]
+        ) {
+          if (board[index] == "X") {
+            winner = "X";
+
+          }
+          else if (board[index] == "O") {
+            winner = "O";
+
+          }
+        }
+
+      }
+    });
+    if (board[0] == board[4] && board[0] == board[8] && board[0] != "") {
+      if (board[0] == "X") {
+        winner = "X";
+
+      }
+      else if (board[0] == "O") {
+        winner = "O";
+
+      }
+    }
+    else if (board[2] == board[4] && board[2] == board[6] && board[2] != "") {
+      if (board[2] == "X") {
+        winner = "X";
+
+      }
+      else if (board[2] == "O") {
+        winner = "O";
+
+      }
+    }
+    else if (board.includes("") === false && winner === null) {
+      return "tie";
+    }
+    return winner;
+
+  };
   const resetGame = () => {
     board.forEach((item, index) => {
       board[index] = "";
@@ -307,8 +351,79 @@ const game = (() => {
     displayController.clearBoard();
     displayController.switchActiveImg();
   };
-  return { startGame, checkWinner };
+  return { startGame, checkWinner, aiCheckWinner };
 })();
-const playerOne = playerFactory("player", "human");
-const playerTwo = playerFactory("player", "human");
+const playerOne = playerFactory("player", "human", "X");
+const playerTwo = playerFactory("player", "human", "O");
 handleMenu();
+
+function bestMove(board) {
+  console.log("best move called")
+  let bestScore = -Infinity;
+  let moveToMake;
+  let possibleMoves = getAvailableMoves(board);
+  possibleMoves.forEach((move) => {
+    board[move] = "O";
+    let score = minimax(board, 0, false);
+    board[move] = "";
+    if (score > bestScore) {
+      bestScore = score;
+      moveToMake = move;
+      console.log("best score: " + bestScore + " move to make: " + moveToMake)
+    }
+  });
+  const aiClick = document.getElementById(`cell-${moveToMake}`);
+  aiClick.textContent = "O";
+  board[moveToMake] = "O";
+  console.log(board);
+  playerOne.currentlyActive = true;
+  playerTwo.currentlyActive = false;
+  displayController.switchActiveImg();
+  document.getElementById("turnDisplay").innerText = "Player One's Turn.";
+  game.checkWinner();
+}
+
+function getAvailableMoves(board) {
+  const availableMoves = [];
+  board.forEach((item, index) => {
+    if (item === "") {
+      availableMoves.push(index);
+    }
+  });
+  return availableMoves;
+}
+
+let scores = {
+  X: -10,
+  O: 10,
+  tie: 0,
+};
+
+function minimax(board, depth, isMaximizing) {
+  let result = game.aiCheckWinner(board);
+  if (result !== null) {
+    console.log("board: " + board + " depth: " + depth + " result: " + result)
+    return scores[result];
+  }
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    let possibleMoves = getAvailableMoves(board);
+    possibleMoves.forEach((move) => {
+      board[move] = "O";
+      let score = minimax(board, depth + 1, false);
+      board[move] = "";
+      bestScore = Math.max(score, bestScore);
+    });
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    let possibleMoves = getAvailableMoves(board);
+    possibleMoves.forEach((move) => {
+      board[move] = "X";
+      let score = minimax(board, depth + 1, true);
+      board[move] = "";
+      bestScore = Math.min(score, bestScore);
+    });
+    return bestScore;
+  }
+};
