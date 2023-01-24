@@ -1,5 +1,5 @@
+let difficulty;
 const handleMenu = () => {
-  let difficulty;
   const startButtonP = document.getElementById("fader");
   startButtonP.addEventListener("click", () => {
     document.getElementById("title").className = "animateTitle";
@@ -75,7 +75,7 @@ const displayController = (() => {
       board.forEach((item, index) => {
         const clicked = document.getElementById(`cell-${index}`);
         clicked.addEventListener("click", () => {
-          if (board[index] == "X" && board[index] == "") {
+          if (board[index] != "X" && board[index] == "" && playerOne.currentlyActive == true) {
             clicked.textContent = "X";
             board[index] = "X";
             console.log(board);
@@ -100,12 +100,13 @@ const displayController = (() => {
       });
     };
     const aiGame = (difficulty) => {
+      let gameOver;
       playerTwoPic.innerHTML = `<img src="./images/ai.svg" alt="X" class="playerImg">`;
       switchActiveImg();
       board.forEach((item, index) => {
         const clicked = document.getElementById(`cell-${index}`);
         clicked.addEventListener("click", () => {
-          if (playerOne.currentlyActive == true && board[index] == "") {
+          if (playerOne.currentlyActive == true && board[index] === "") {
             clicked.textContent = "X";
             board[index] = "X";
             console.log(board);
@@ -114,9 +115,10 @@ const displayController = (() => {
             switchActiveImg();
             document.getElementById("turnDisplay").innerText =
               "Player Two's Turn.";
-            game.checkWinner();
+            gameOver = game.checkWinner();
           }
-          if (difficulty === "easy") {
+          console.log(gameOver)
+          if (difficulty === "easy" && gameOver != true) {
             setTimeout(() => {
               aiRandom = Math.floor(Math.random() * 9);
               if (board[aiRandom] !== "" && board.includes("") == true) {
@@ -139,31 +141,13 @@ const displayController = (() => {
               }
             }, 1000);
           }
-          if (difficulty === "medium") {
+          if (difficulty === "medium" && gameOver != true) {
             setTimeout(() => {
-              aiRandom = Math.floor(Math.random() * 9);
-              if (board[aiRandom] !== "" && board.includes("") == true) {
-                while (board[aiRandom] !== "") {
-                  aiRandom = Math.floor(Math.random() * 9);
-                }
-              }
-              if (playerTwo.currentlyActive == true && board[aiRandom] == "") {
-                const aiClick = document.getElementById(`cell-${aiRandom}`);
-
-                aiClick.textContent = "O";
-                board[aiRandom] = "O";
-                console.log(board);
-                playerOne.currentlyActive = true;
-                playerTwo.currentlyActive = false;
-                switchActiveImg();
-                document.getElementById("turnDisplay").innerText =
-                  "Player One's Turn.";
-                game.checkWinner();
-              }
+              if (playerTwo.currentlyActive == true) bestMove(board, 0, false);
             }, 1000);
           }
-          if (difficulty === "hard") {
-            bestMove(board, 0, false);
+          if (difficulty === "hard" && gameOver != true) {
+            if (playerTwo.currentlyActive == true) bestMove(board, 0, false);
           }
         });
       });
@@ -215,11 +199,12 @@ const game = (() => {
     if (playerTwo.status === "human") {
       displayController.renderBoard().playerGame();
     } else if (playerTwo.status === "AI") {
-      displayController.renderBoard().aiGame("hard");
+      displayController.renderBoard().aiGame(difficulty);
     }
   };
 
   const checkWinner = () => {
+    let gameOver = false;
     document.getElementById("playAgain").addEventListener("click", () => {
       resetGame();
     });
@@ -236,7 +221,8 @@ const game = (() => {
             ? (winner.innerText = "Player Two Wins!")
             : (winner.innerText = "Player One Wins!");
           displayController.winScreen();
-          return;
+          gameOver = true
+          return gameOver;
         }
 
       }
@@ -249,9 +235,9 @@ const game = (() => {
             ? (winner.innerText = "Player Two Wins!")
             : (winner.innerText = "Player One Wins!");
           displayController.winScreen();
-          return;
+          gameOver = true
+          return gameOver;
         }
-
       }
     });
     if (board[0] === board[4] && board[0] === board[8] && board[0] !== "") {
@@ -259,20 +245,24 @@ const game = (() => {
         ? (winner.innerText = "Player Two Wins!")
         : (winner.innerText = "Player One Wins!");
       displayController.winScreen();
-      return;
+      gameOver = true
+      return gameOver;
     }
     if (board[2] === board[4] && board[2] === board[6] && board[2] !== "") {
       playerOne.currentlyActive
         ? (winner.innerText = "Player Two Wins!")
         : (winner.innerText = "Player One Wins!");
       displayController.winScreen();
-      return;
+      gameOver = true
+      return gameOver;
     }
     if (movesMade === 9) {
       winner.innerText = "It's a tie!";
       displayController.winScreen();
-      return;
+      gameOver = true
+      return gameOver;
     }
+    return gameOver;
   };
 
   const aiCheckWinner = (board) => {
@@ -372,6 +362,13 @@ function bestMove(board) {
       console.log("best score: " + bestScore + " move to make: " + moveToMake)
     }
   });
+  if (difficulty === "medium") {
+    let mistakeChance = Math.random() * 10;
+    if (mistakeChance < 3) {
+      moveToMake = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+    };
+  }
+  setTimeout(() => {
   const aiClick = document.getElementById(`cell-${moveToMake}`);
   aiClick.textContent = "O";
   board[moveToMake] = "O";
@@ -381,6 +378,7 @@ function bestMove(board) {
   displayController.switchActiveImg();
   document.getElementById("turnDisplay").innerText = "Player One's Turn.";
   game.checkWinner();
+  }, 1000);
 }
 
 function getAvailableMoves(board) {

@@ -142,6 +142,7 @@ path.two {
 .buttonVanish {
     transition: 1s;
     opacity: 0%;
+    pointer-events: none;
 }
 
 @keyframes color_anim {
@@ -181,14 +182,14 @@ path.two {
     width: 30vw;
     height: 30vw;
     margin: 0 auto;
-    border: 1px solid #e76f51;
     display: grid;
-    box-shadow: 0 0 10px 0 #e9c46a;
+    gap: 1rem;
     grid-template-rows: repeat(3, 1fr);
 }
 
 .row {
     display: grid;
+    gap: 1rem;
     grid-template-columns: repeat(3, 1fr);
 }
 
@@ -197,11 +198,12 @@ path.two {
 }
 
 .cell {
-    border: 3px solid #FFF;
+    border: 1px solid #FFF;
+    border-radius: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 8rem;
+    font-size: 6rem;
     font-family: 'Poppins', sans-serif;
     color: #2a9d8f;
     cursor: pointer;
@@ -346,4 +348,21 @@ path.two {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 1s linear;
+}
+
+#end {
+    background-color: #f4a261;
+    height: 5vh;
+    width: 5vw;
+    border-radius: 2rem;
+}
+
+#end:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: 0 0.5vh 0.5vh 0.25vh #e76f51;
+}
+
+#end:active {
+    transform: scale(0.95);
 }
