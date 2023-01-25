@@ -194,7 +194,8 @@ const game = (() => {
     playerOne.currentlyActive = true;
     playerTwo.currentlyActive = false;
     document.getElementById("end").addEventListener("click", () => {
-      resetGame();
+      //resetGame();
+      window.location.reload();
     });
     if (playerTwo.status === "human") {
       displayController.renderBoard().playerGame();
@@ -231,6 +232,7 @@ const game = (() => {
           board[index] === board[index + 3] &&
           board[index] === board[index + 6]
         ) {
+          console.log("vertical win");
           playerOne.currentlyActive
             ? (winner.innerText = "Player Two Wins!")
             : (winner.innerText = "Player One Wins!");
@@ -256,7 +258,7 @@ const game = (() => {
       gameOver = true
       return gameOver;
     }
-    if (movesMade === 9) {
+    if (movesMade === 9 && gameOver === false) {
       winner.innerText = "It's a tie!";
       displayController.winScreen();
       gameOver = true

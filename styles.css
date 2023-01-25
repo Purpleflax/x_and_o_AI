@@ -348,6 +348,10 @@ path.two {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 1s linear;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 #end {
@@ -355,6 +359,7 @@ path.two {
     height: 5vh;
     width: 5vw;
     border-radius: 2rem;
+    font-family: "Roboto", sans-serif;
 }
 
 #end:hover {
@@ -365,4 +370,54 @@ path.two {
 
 #end:active {
     transform: scale(0.95);
+}
+
+#difficultyText {
+    position: absolute;
+    text-align: center;
+    width: 15vw;
+    top: 25vh;
+    font-family: "Roboto", sans-serif;
+    animation: 1.5s ease-out 0s 1 titleAppear;
+    font-size: 2rem;
+    color: #f4a261;
+    text-shadow: 0 1px 0 #e76f51,
+        0 2px 0 #e76f51,
+        0 3px 0 #e76f51,
+        0 4px 0 #e76f51,
+        0 5px 0 #e76f51,
+        0 6px 1px rgba(0, 0, 0, .1),
+        0 0 5px rgba(0, 0, 0, .1),
+        0 1px 3px rgba(0, 0, 0, .3),
+        0 3px 5px rgba(0, 0, 0, .2),
+        0 5px 10px rgba(0, 0, 0, .25),
+        0 10px 10px rgba(0, 0, 0, .2),
+        0 20px 20px rgba(0, 0, 0, .15);
+}
+
+#playAgain {
+    background-color: #FFF;
+    color: black;
+    font-size: 1.5rem;
+    height: 5vh;
+    width: 10vw;
+    border-radius: 1rem;
+    font-family: "Roboto", sans-serif;
+    margin-top: 1vh;
+    border: none;
+}
+
+#playAgain:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#playAgain:active {
+    transform: scale(0.95);
+}
+
+#winText {
+    color: #FFF;
+    font-family: "Roboto", sans-serif;
+    font-size: 4rem;
 }
